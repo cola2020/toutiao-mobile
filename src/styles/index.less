@@ -1,0 +1,39 @@
+// 全局样式表
+// 加载图标样式
+@import "./icon.less";
+
+body{
+    background-color: #f5f7f9;
+}
+
+// 页面navbar样式
+// .login-container{       
+//         .page-nav-bar {
+//             // 由于在类选择器中 van-nav-bar 已经给定了bgc值,且 page-nav-bar 默认作用在 van-nav-bar 之前
+//             // 所以这种写法不生效
+//             // background-color: #3296fa !important;
+//             background-color: #3296fa;
+//             .van-nav-bar__title{
+//                 color: #000;
+//             } 
+//         }
+//     }
+
+// 页面navbar样式
+.page-nav-bar {
+    // 由于在类选择器中 van-nav-bar 已经给定了bgc值,且 page-nav-bar 默认作用在 van-nav-bar 之前
+    // 所以这种写法不生效
+    background-color: #3296fa !important;
+    // background-color: #3296fa;
+    .van-nav-bar__title{
+        color: #fff;
+    }
+}
+
+// 页面navbar样式
+// 可以添加背景色,但是title无法显示,被覆盖
+// .page-nav-bar::before{
+//     content: "";
+//     display: block;
+//     background-color: pink;
+// }
