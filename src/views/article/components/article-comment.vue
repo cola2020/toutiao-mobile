@@ -30,11 +30,11 @@
     <!-- 评论列表 -->
 
     <!-- 发布评论 -->
-    <van-cell-group class="publish-wrap">
+    <!-- <van-cell-group class="publish-wrap">
       <van-field clearable placeholder="请输入评论内容">
         <van-button slot="button" size="mini" type="info">发布</van-button>
       </van-field>
-    </van-cell-group>
+    </van-cell-group> -->
     <!-- /发布评论 -->
   </div>
 </template>
@@ -45,6 +45,7 @@ import { getComments } from '@/api/comment'
 export default {
     name: 'ArticleComment',
     props: {
+        // 接受的文章 id
         source: {
             type: [String, Number, Object],
             required: true
@@ -73,12 +74,17 @@ export default {
             try {
                 // const articleComment = this.articleComment
                 // 1. 请求获取数据
-                console.log(this.source);
+                // console.log(JSONBig.parse(this.scource));
+                // console.log();
+                // console.log(this.source);
+                this.source = Number(this.source)
+                // console.log(this.source);
                 const { data } = await getComments({
                     type: 'a', // 评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
-                    source: this.source, // 源id，文章id或评论id
-                    offset: null, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
-                    limit: 10 // 每页大小
+                    // 1323822606880604200
+                    source: 1323822606880604160 // 源id，文章id或评论id
+                    // offset: null, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
+                    // limit: 10 // 每页大小
                 })
 
                 // 2. 将数据添加到列表中

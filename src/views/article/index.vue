@@ -22,6 +22,7 @@
 
       <!-- 加载完成-文章详情 -->
       <div class="article-detail" v-else-if="article.title">
+
         <!-- 文章标题 -->
         <h1 class="article-title">{{ article.title }}</h1>
         <!-- /文章标题 -->
@@ -70,12 +71,10 @@
 
         <!-- 文章评论 -->
         <!-- <articleComment :source="article.art_id"/> -->
-        <!-- /文章评论 -->
+         <!-- /文章评论 -->
 
       </div>
       <!-- /加载完成-文章详情 -->
-
-
 
       <!-- 加载失败：404 -->
       <div v-else-if="errorStatus === 404" class="error-wrap" >
@@ -92,6 +91,7 @@
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
+
 
 
 
@@ -171,9 +171,10 @@ export default {
         async loadActicles() {
             this.loading = true
             try {
+                // console.log(this.articleId);
                 const { data } = await getArticleById(this.articleId)
                 this.article = data.data
-
+                console.log(this.article);
                 // 注意数据驱动视图渲染具有一定的延迟性
                 // 在进行 article-content 节点获取的时候,该节点还未被渲染
                 setTimeout(() => {

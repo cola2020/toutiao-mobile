@@ -13,3 +13,4 @@ export const getComments = params => {
         params
     });
 }
+

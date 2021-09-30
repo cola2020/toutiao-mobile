@@ -116,7 +116,6 @@ export default {
                     }
                 }
                 this.channels = channels
-
             } catch (error) {
                 this.$toast('获取频道失败,请刷新重试')
             }
