@@ -66,7 +66,6 @@ export default {
                 // console.log(data);
                 this.suggestions = data.data.options
             } catch (error) {
-                console.log(error);
                 this.$toast('获取数据失败,请稍后重试')
             }
         },

@@ -93,7 +93,6 @@ export default {
 
 
     created () {
-        console.log(1);
         this.loadAllChannel()
     },
 
@@ -106,7 +105,6 @@ export default {
                 // console.log(this.allChannel);
                 // console.log(this.myChannel);
             } catch (error) {
-                console.log('failed', error);
             }
         },
 
@@ -172,9 +170,7 @@ export default {
         async deleteChannel(channel) {
             try {
                 if (this.user) {
-                    // 接口失效
-                    const data = await deleteUserChannel(channel.id)
-                    console.log(data);
+                    await deleteUserChannel(channel.id)
                 } else {
                 // 没有登陆
                     setItem('TOUTIAO_CHANNELS', this.myChannel)

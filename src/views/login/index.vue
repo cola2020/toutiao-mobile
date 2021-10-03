@@ -1,8 +1,8 @@
 <template>
     <div class="login-container">
         <!-- 导航栏 -->
-        <van-nav-bar class="page-nav-bar" title="登录"  left-text="返回">
-            <van-icon slot="left" name="cross" @click="$router.back()"></van-icon>
+        <van-nav-bar class="page-nav-bar" title="登录"  left-text="返回"  >
+            <van-icon slot="left" name="cross" @click="$router.push('/')"></van-icon>
         </van-nav-bar>
         <!-- /导航栏 -->
 
@@ -67,8 +67,8 @@ export default {
             // 控制显示倒计时显示
             isCountDownShow: false,
             user: {
-                mobile: '',
-                code: ''
+                mobile: '13911111112',
+                code: '246810'
             },
             userFormRules: {
                 mobile: [
@@ -113,7 +113,9 @@ export default {
 
                 // 登录成功后跳转回原来的页面
                 // 不严谨
-                this.$router.back();
+                // this.$router.back();
+                this.$router.replace(this.$route.query.redirect || '/');
+
             } catch (error) {
                 if (error.response.status === 400) {
                     this.$toast.fail('手机号或验证码错误');
@@ -146,10 +148,10 @@ export default {
                 if (error.response.status === 429) {
                     this.$toast('发送过于频繁,一分钟之后再尝试');
                 } else {
-                    console.log('发送失败', error);
                 }
             }
         }
+
     }
 
 }

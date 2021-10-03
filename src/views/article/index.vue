@@ -70,7 +70,10 @@
         <van-divider>正文结束</van-divider>
 
         <!-- 文章评论 -->
-        <!-- <articleComment :source="article.art_id"/> -->
+        <articleComment
+          :source="article.art_id"
+          @onload-success="totalCommentCount = $event.length"
+        />
          <!-- /文章评论 -->
 
       </div>
@@ -105,7 +108,7 @@
       >写评论</van-button>
       <van-icon
         name="comment-o"
-        badge="123"
+        :badge="totalCommentCount"
         color="#777"
       />
       <van-icon
@@ -132,14 +135,14 @@ import { addFollow, deleteFollow } from '@/api/user'
 
 import { getItem } from '@/utils/storege'
 
-// import ArticleComment from './components/article-comment'
+import ArticleComment from './components/article-comment'
 
 
 
 export default {
     name: 'ArticleIndex',
     components: {
-        // ArticleComment
+        ArticleComment
     },
 
     // 动态路由传递的参数
@@ -156,7 +159,8 @@ export default {
         return {
             article: [], // 保存文章数据
             loading: true, // 控制显示加载的控件,初始为 true
-            errorStatus: 0
+            errorStatus: 0,
+            totalCommentCount: 0 // 图表上展示评论的数量
 
         }
     },
@@ -174,7 +178,7 @@ export default {
                 // console.log(this.articleId);
                 const { data } = await getArticleById(this.articleId)
                 this.article = data.data
-                console.log(this.article);
+                // console.log(this.article);
                 // 注意数据驱动视图渲染具有一定的延迟性
                 // 在进行 article-content 节点获取的时候,该节点还未被渲染
                 setTimeout(() => {
@@ -191,7 +195,6 @@ export default {
                     this.errorStatus = 404
                 }
                 // this.loading = false
-                console.log(error)
             }
             // 不管加载成功或者失败都要关闭加载状态
             this.loading = false
@@ -225,29 +228,23 @@ export default {
         // 关注与取消关注事件
         async onFollow() {
             try {
-                if (getItem('TOUTIAO_USER')) {
-                    // 已登陆
-                    // 已关注
-                    if (this.article.is_followed) {
-                        console.log(2);
-                        const { data } = await deleteFollow(this.article.aut_id)
-                        console.log(data);
+                if (this.article.is_followed) {
+                    await deleteFollow(this.article.aut_id)
                     // this.article.is_followed = false
-                    } else {
-                    // 不能关注自己
-                        console.log(1);
-                        const { data } = await addFollow(this.article.aut_id)
-                        console.log(data);
-                    // this.article.is_followed = true
-                    }
-                    this.article.is_followed = !this.article.is_followed
                 } else {
-                    // 未登录
-                    this.$toast('请登录后操作！')
+                    // 不能关注自己
+                    await addFollow(this.article.aut_id)
+                    // this.article.is_followed = true
                 }
+                this.article.is_followed = !this.article.is_followed
 
             } catch (error) {
-                this.$toast('操作失败请重试!')
+                if (error.response && error.response.status !== 401) {
+                    this.$toast.fail('操作失败，请稍后重试！')
+                } else {
+                    this.$toast.fail(' 请登录！')
+                    // console.log(error);
+                }
             }
         },
 
@@ -279,7 +276,6 @@ export default {
         async onLike() {
             try {
                 if (getItem('TOUTIAO_USER')) {
-                    console.log(1);
                     // 已经登陆
                     // 已点赞
                     if (this.article.attitude === 1) {

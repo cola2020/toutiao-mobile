@@ -63,7 +63,6 @@ export default {
                 // console.log(data);
                 const { results } = data.data
                 this.results.push(...results)
-                console.log(this.results);
 
 
                 // 3. 将本次加载中的 loading 关闭,以开启下次加载

@@ -1,7 +1,9 @@
 <template>
     <div class="layout-container">
         <!-- 子路由出口 -->
-        <router-view/>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
         <!-- /子路由出口 -->
 
         <!-- 标签导航栏 -->
