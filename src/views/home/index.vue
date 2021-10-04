@@ -29,7 +29,9 @@
                 :title="channel.name"
             >
                 <!-- 文章列表 -->
-                <article-list :channel="channel" />
+
+                    <article-list :channel="channel" />
+
                 <!-- /文章列表 -->
 
             </van-tab>

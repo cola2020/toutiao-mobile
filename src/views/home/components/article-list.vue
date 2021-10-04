@@ -1,5 +1,5 @@
 <template>
-    <div class="article-List">
+    <div class="article-List" ref="articleList">
     <!-- <div> -->
         <!-- 下拉刷新 -->
         <van-pull-refresh
@@ -38,6 +38,9 @@ import { getArticles } from '@/api/article'
 // 显示文章的组件
 import ArticleItem from '@/components/article-item'
 
+// 用于滑动中防抖
+import { debounce } from 'lodash'
+
 export default {
     name: 'ArticleList',
     // 组件注册
@@ -60,7 +63,8 @@ export default {
             timestamp: null, // 获取下一页数据的时间戳
             error: false, // 控制数据列表加载失败的提示状态
             isRefreshing: false, // 控制下拉刷新状态
-            refreshText: '刷新成功'// 刷新成功提示的文本
+            refreshText: '刷新成功', // 刷新成功提示的文本
+            scrollTop: 0 // 记录文章列表距离顶部距离
         };
     },
 
@@ -146,6 +150,20 @@ export default {
                 this.refreshText = '刷新失败'
             }
         }
+    },
+
+    mounted () {
+        // 列表滑动时记录滑动的位置，下次回到该页面回到相应的位置
+        const artilceList = this.$refs.articleList
+        artilceList.onscroll = debounce(() => {
+            // console.log(this); // 这里是 vc 对象
+            this.scrollTop = artilceList.scrollTop
+        }, 50)
+    },
+
+    // 缓存专用的钩子函数，用于在回到被缓存的组件时调用
+    activated () {
+        this.$refs.articleList.scrollTop = this.scrollTop
     }
 };
 </script>
